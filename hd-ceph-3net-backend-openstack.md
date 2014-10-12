@@ -67,8 +67,7 @@ Chọn Ignore nếu xuât hiện thông báo
 #### D.5. Cài đặt 
 	apt-get install ceph-deploy -y
     ceph-deploy new ceph1 ceph2 ceph3
-    ceph-deploy install ceph1 ceph2 ceph3
-    ceph-deploy mon create-initial
+    
 	
 #### D.6. Sửa lại /ceph-cluster/ceph.conf
     [global]
@@ -101,27 +100,30 @@ Chọn Ignore nếu xuât hiện thông báo
         host = ceph3
         public addr = 10.10.10.54
         cluster addr = 20.20.20.54
+		
+#### D.7. Cài đặt ceph lên các node
+    ceph-deploy install ceph1 ceph2 ceph3
 
-#### D.7. Khởi tạo lại mon
-    ceph-deploy --overwrite-conf mon create
+#### D.8. Khởi tạo  mon
+    ceph-deploy mon create-initial
 				
-#### D.6. Format các phân vùng dành cho CEPH về định dạng xfs
+#### D.9. Format các phân vùng dành cho CEPH về định dạng xfs
     ceph-deploy disk zap --fs-type xfs ceph1:sdb ceph2:sdb ceph3:sdb
 	
-#### D.7. Khởi tạo các phân vùng trên thành các OSD cho CEPH
+#### D.10. Khởi tạo các phân vùng trên thành các OSD cho CEPH
     ceph-deploy --verbose osd prepare ceph1:sdb:/dev/sdc1 ceph2:sdb:/dev/sdc1 ceph3:sdb:/dev/sdc1
     ceph-deploy --verbose osd activate ceph1:sdb1:/dev/sdc1 ceph2:sdb1:/dev/sdc1 ceph3:sdb1:/dev/sdc1
 	
-#### D.8. Copy admin key và file config sang các node CEPH khác
+#### D.11. Copy admin key và file config sang các node CEPH khác
     ceph-deploy admin ceph1 ceph2 ceph3
     chmod +r /etc/ceph/ceph.client.admin.keyring
 	
-#### D.9. Kiểm tra trạng thái của CEPH
+#### D.12. Kiểm tra trạng thái của CEPH
     ceph health
     ceph status
     ceph osd tree
 	
-#### D.10. Tạo các OSD
+#### D.13. Tạo các OSD
     ceph osd pool create volumes 100
     ceph osd pool create images 100
     ceph osd pool create vms 100
