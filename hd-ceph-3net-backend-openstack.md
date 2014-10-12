@@ -34,7 +34,7 @@ apt-get update
     (parted)mkpart primary xfs 0 100%
 	
 Chọn Ignore nếu xuât hiện thông báo
-sh```
+```sh
     Warning: The resulting partition is not properly aligned for best performance.
     Ignore/Cancel? Ignore
 	(parted)quit
