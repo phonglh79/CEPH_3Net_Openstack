@@ -27,6 +27,13 @@ apt-get update
 #### C.4. Format /dev/sdc
     (echo o; echo n; echo p; echo 1; echo ; echo; echo w) | sudo fdisk /dev/sdc
     mkfs -t xfs /dev/sdc1	
+
+#### C.5. Đặt GPT table cho /dec/sdb
+    parted /dev/sdb
+    (parted) mklabel gpt
+	
+#### C.6. Kiểm tra GPT table đã được set chưa
+    parted -l
 	
 ### D. Thực hiện trên CEPH 1
 ##### D.1. Tạo cặp khóa SSH
