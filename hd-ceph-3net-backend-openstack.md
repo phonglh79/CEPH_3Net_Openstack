@@ -24,14 +24,15 @@ apt-get update
 	
 #### C.3. Add thêm 2 HDD vào các node CEPH, ở đây giả sử là /dev/sdb và /dev/sdc
 
-#### C.4. Format /dev/sdc
-    (echo o; echo n; echo p; echo 1; echo ; echo; echo w) | sudo fdisk /dev/sdc
-    mkfs -t xfs /dev/sdc1	
-    
-#### C.5. Đặt GPT table cho /dec/sdb
+#### C.4. Đặt GPT table cho /dec/sdb
     parted /dev/sdb
-    (parted) mklabel gpt
-    (parted)mkpart primary xfs 0 100%
+    (parted)mklabel gpt
+    (parted)quit
+    
+#### C.5. Đặt GPT table cho /dec/sdc
+    parted /dev/sdc
+    (parted)mklabel gpt
+    (parted)mkpart primary 0 100%
 	
 Chọn Ignore nếu xuât hiện thông báo
 ```sh
