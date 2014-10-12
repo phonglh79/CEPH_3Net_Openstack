@@ -27,10 +27,16 @@ apt-get update
 #### C.4. Format /dev/sdc
     (echo o; echo n; echo p; echo 1; echo ; echo; echo w) | sudo fdisk /dev/sdc
     mkfs -t xfs /dev/sdc1	
-
+    
 #### C.5. Đặt GPT table cho /dec/sdb
     parted /dev/sdb
     (parted) mklabel gpt
+    (parted)mkpart primary xfs 0 100%
+	
+Chọn Ignore nếu xuât hiện thông báo
+    Warning: The resulting partition is not properly aligned for best performance.
+    Ignore/Cancel? Ignore
+	(parted)quit
 	
 #### C.6. Kiểm tra GPT table đã được set chưa
     parted -l
@@ -167,7 +173,7 @@ apt-get update
     rbd_store_pool=images
     show_image_direct_url=True
 	
-    Bỏ dòng:
+Bỏ dòng:
     default_store = file
 	
 #### F.11. Thêm vào file /etc/cinder/cinder.conf
