@@ -1,6 +1,12 @@
 #!/bin/bash -ex
 source config.cfg
 
+#Cai dat EPEL repo
+echo "############ Cai dat EPEL repo ############"
+rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+ssh -t ceph2 sudo rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+ssh -t ceph3 sudo rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+
 #Cai dat keygen
 ########
 echo "############ Cai dat keygen ############"
@@ -20,12 +26,6 @@ ssh -t ceph2 sudo echo "HOSTNAME = $HOST2" > /etc/sysconfig/network
 ssh -t ceph2 sudo hostname "$HOST2"
 ssh -t ceph3 sudo echo "HOSTNAME = $HOST3" > /etc/sysconfig/network
 ssh -t ceph3 sudo hostname "$HOST3"
-
-#Cai dat EPEL repo
-echo "############ Cai dat EPEL repo ############"
-rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-ssh -t ceph2 sudo rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-ssh -t ceph3 sudo rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 
 #Cai dat cac goi ho tro
 echo "############ Cai dat cac goi ho tro ############"

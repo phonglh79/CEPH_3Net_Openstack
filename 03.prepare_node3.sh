@@ -63,4 +63,7 @@ $CEPH2_LOCAL            $HOST2
 $CEPH3_LOCAL        $HOST3
 EOF
 
+service network restart
+yum update -y
+
 init 6
