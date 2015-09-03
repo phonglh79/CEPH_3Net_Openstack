@@ -9,6 +9,7 @@ sleep 5
 ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 
 #Chuyen public key sang cac node khac
+yum install sshpass -y
 echo "StrictHostKeyChecking no" > /root/.ssh/config
 echo "UserKnownHostsFile=/dev/null" >> /root/.ssh/config
 sshpass -p $CEPH2_PASS ssh-copy-id  root@$CEPH2_LOCAL
