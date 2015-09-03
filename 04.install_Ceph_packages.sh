@@ -1,23 +1,6 @@
 #!/bin/bash -ex
 source config.cfg
 
-echo "########## Khai bao Hostname ceph1 ##########"
-
-hostname
-echo "HOSTNAME = $HOST1" > /etc/sysconfig/network
-hostname "$HOST1"
-
-iphost=/etc/hosts
-test -f $iphost.orig || cp $iphost $iphost.orig
-rm $iphost
-touch $iphost
-cat << EOF >> $iphost
-127.0.0.1               localhost
-$CEPH1_LOCAL            $HOST1
-$CEPH2_LOCAL            $HOST2
-$CEPH3_LOCAL        $HOST3
-EOF
-
 #Cai dat keygen
 ########
 echo "############ Cai dat keygen ############"
@@ -80,10 +63,6 @@ rm $ceph_repo
 touch $ceph_repo
 cat /root/ceph_repo >> $ceph_repo
 
-#ssh -t ceph2 sudo test -f $ceph_repo.orig || cp $ceph_repo $ceph_repo.orig
-#ssh -t ceph2 sudo rm $ceph_repo
-#ssh -t ceph2 sudo touch $ceph_repo
-#ssh -t ceph2 sudo cat /root/ceph_repo >> $ceph_repo
 
 scp $ceph_repo $CEPH2_LOCAL:/etc/yum.repos.d
 scp $ceph_repo $CEPH3_LOCAL:/etc/yum.repos.d
@@ -104,9 +83,5 @@ sleep 5
 echo "############ Kiem tra lai viec cai dat tren ceph3############"
 ssh -t ceph2 sudo rpm -qa | egrep -i "ceph|rados|rbd"
 sleep 5
- 
-#Khoi dong lai cac node
-echo "############ Khoi dong lai cac node ############"
-ssh -t ceph2 sudo init 6
-ssh -t ceph3 sudo init 6
-init 6	
+
+
