@@ -1,6 +1,10 @@
 #!/bin/bash -ex
 source config.cfg
 
+scp /var/lib/ceph/bootstrap-osd/ceph.keyring ceph2:/var/lib/ceph/bootstrap-osd
+scp /var/lib/ceph/bootstrap-osd/ceph.keyring ceph3:/var/lib/ceph/bootstrap-osd
+
+
 #Dat GPT Table cho cac HDD
 echo "############ Dat GPT Table cho cac HDD ############"
 parted /dev/$OSD0 mklabel GPT
