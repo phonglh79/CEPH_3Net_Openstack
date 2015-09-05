@@ -56,7 +56,7 @@ iphost=/etc/hosts
 test -f $iphost.orig || cp $iphost $iphost.orig
 rm $iphost
 touch $iphost
-cat << EOF >> $iphost
+cat << EOF > $iphost
 127.0.0.1               localhost
 $CEPH1_LOCAL            $HOST1
 $CEPH2_LOCAL            $HOST2

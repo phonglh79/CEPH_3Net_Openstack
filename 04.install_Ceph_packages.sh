@@ -13,11 +13,13 @@ sleep 5
 ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 
 #Chuyen public key sang cac node khac
+echo "############ Chuyen public key sang cac node khac ############"
 yum install sshpass -y
 echo "StrictHostKeyChecking no" > /root/.ssh/config
 echo "UserKnownHostsFile=/dev/null" >> /root/.ssh/config
 sshpass -p $CEPH2_PASS ssh-copy-id  root@$CEPH2_LOCAL
 sshpass -p $CEPH3_PASS ssh-copy-id  root@$CEPH3_LOCAL
+
 #Doi hostname cho Ceph2 va Ceph3
 echo "############ Doi hostname cho Ceph2 va Ceph3 ############"
 ssh -t ceph2 sudo echo "HOSTNAME = $HOST2" > /etc/sysconfig/network
