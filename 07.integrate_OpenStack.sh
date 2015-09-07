@@ -49,23 +49,23 @@ ceph auth get-or-create client.cinder-backup mon 'allow r' osd 'allow class-read
 
 #Add keyring cho Cinder, Glance
 echo "############ Add keyring cho Cinder, Glance ############"
-ceph auth get-or-create client.glance | ssh $CON sudo tee /etc/ceph/ceph.client.glance.keyring
-ssh $CON sudo chown glance:glance /etc/ceph/ceph.client.glance.keyring
-ceph auth get-or-create client.cinder | ssh $CON sudo tee /etc/ceph/ceph.client.cinder.keyring
-ssh $CON sudo chown cinder:cinder /etc/ceph/ceph.client.cinder.keyring
-ceph auth get-or-create client.cinder-backup | ssh $CON sudo tee /etc/ceph/ceph.client.cinder-backup.keyring
-ssh $CON sudo chown cinder:cinder /etc/ceph/ceph.client.cinder-backup.keyring
+ceph auth get-or-create client.glance | ssh -t $CON sudo tee /etc/ceph/ceph.client.glance.keyring
+ssh -t $CON sudo chown glance:glance /etc/ceph/ceph.client.glance.keyring
+ceph auth get-or-create client.cinder | ssh -t $CON sudo tee /etc/ceph/ceph.client.cinder.keyring
+ssh -t $CON sudo chown cinder:cinder /etc/ceph/ceph.client.cinder.keyring
+ceph auth get-or-create client.cinder-backup | ssh -t $CON sudo tee /etc/ceph/ceph.client.cinder-backup.keyring
+ssh -t $CON sudo chown cinder:cinder /etc/ceph/ceph.client.cinder-backup.keyring
 
 #Add keyring cho Nova
 echo "############ Add keyring cho Nova ############"
 for i in $COM1 $COM2
-ceph auth get-or-create client.cinder | ssh $i sudo tee /etc/ceph/ceph.client.cinder.keyring
+ceph auth get-or-create client.cinder | ssh -t $i sudo tee /etc/ceph/ceph.client.cinder.keyring
 done
 
 #Tao Client secret key
 echo "############ Tao Client secret key ############"
 for i in $COM1 $COM2
-ceph auth get-key client.cinder | ssh $i tee client.cinder.key
+ceph auth get-key client.cinder | ssh -t $i tee client.cinder.key
 done
 
 #Add secret key vao libvirt
