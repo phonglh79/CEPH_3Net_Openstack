@@ -30,7 +30,7 @@ Sửa các thông số sau:
 - Password root của các node
 - Các disk để sử dụng làm OSD của các node
 - FSID: để sử dụng cho việc xác thực giữa các dịch vụ của Ceph
-
+```
 	#Hostname
 	HOST1=ceph1
 	HOST2=ceph2
@@ -60,14 +60,17 @@ Sửa các thông số sau:
 	CEPH1_REPLICATE=192.168.10.43
 	CEPH2_REPLICATE=192.168.10.45 
 	CEPH3_REPLICATE=192.168.10.47
+```	
 ....
 
 #### C.3. Cấu hình NIC, Hostname, update
 Truy cập bằng quyền root vào các node 1, 2 ,3 và thực hiện tương ứng với từng node:
+```
 	cd /root/Install_CephHammer_3node/
     bash 01.prepare_node1.sh
     bash 01.prepare_node1.sh
     bash 01.prepare_node1.sh
+```
 Sau bước này, các node sẽ khởi động lại
 	
 #### C.4. Cài đặt các package của Ceph
