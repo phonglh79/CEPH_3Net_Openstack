@@ -14,6 +14,7 @@ ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 
 #Chuyen public key sang cac node khac
 echo "############ Chuyen public key sang cac node khac ############"
+yum install sshpass -y
 echo "StrictHostKeyChecking no" > /root/.ssh/config
 echo "UserKnownHostsFile=/dev/null" >> /root/.ssh/config
 sshpass -p $CEPH2_PASS ssh-copy-id  root@$CEPH2_LOCAL
@@ -43,21 +44,21 @@ echo "############ Add repo cho CEPH ############"
 cat << EOF > /root/ceph_repo
 [ceph]
 name=Ceph packages for \$basearch
-baseurl=http://ceph.com/rpm-$ceph_ver/el6/\$basearch
+baseurl=http://ceph.com/rpm-firefly/el6/\$basearch
 enabled=1
 gpgcheck=1
 type=rpm-md
 gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
 [ceph-noarch]
 name=Ceph noarch packages
-baseurl=http://ceph.com/rpm-$ceph_ver/el6/noarch
+baseurl=http://ceph.com/rpm-firefly/el6/noarch
 enabled=1
 gpgcheck=1
 type=rpm-md
 gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
 [ceph-source]
 name=Ceph source packages
-baseurl=http://ceph.com/rpm-$ceph_ver/el6/SRPMS
+baseurl=http://ceph.com/rpm-firefly/el6/SRPMS
 enabled=0
 gpgcheck=1
 type=rpm-md

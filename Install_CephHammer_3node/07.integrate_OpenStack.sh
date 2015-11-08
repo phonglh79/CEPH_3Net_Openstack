@@ -14,18 +14,18 @@ $COM1_LOCAL            $COM1
 $COM2_LOCAL       	$COM2
 EOF
 
-#Tai trusted key và add repo
+#Tai trusted key va add repo
 echo "############ Tai trusted key và add repo ############"
 for i in $CON $COM1 $COM2
 do ssh -t $i sudo wget -q -O- 'https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc' | sudo apt-key add - && \
-sudo echo deb http://ceph.com/debian-firefly/ $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/ceph.list && \
+sudo echo deb http://ceph.com/debian-$ceph_ver/ $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/ceph.list && \
 sudo apt-get update
 done
 
 #Cai dat Ceph packages tren OpenStack
 echo "############ Cai dat Ceph packages tren OpenStack ############"
 for i in $CON $COM1 $COM2
-do ssh -t $i sudo apt-get update && sudo apt-get install ceph-common python-ceph glance python-glanceclient -y
+do ssh -t $i sudo apt-get update && sudo apt-get install ceph-common python-rbd  -y
 done
 
 #Tao cac pool cho OpenStack
@@ -59,13 +59,13 @@ ssh -t $CON sudo chown cinder:cinder /etc/ceph/ceph.client.cinder-backup.keyring
 #Add keyring cho Nova
 echo "############ Add keyring cho Nova ############"
 for i in $COM1 $COM2
-ceph auth get-or-create client.cinder | ssh -t $i sudo tee /etc/ceph/ceph.client.cinder.keyring
+do ceph auth get-or-create client.cinder | ssh -t $i sudo tee /etc/ceph/ceph.client.cinder.keyring
 done
 
 #Tao Client secret key
 echo "############ Tao Client secret key ############"
 for i in $COM1 $COM2
-ceph auth get-key client.cinder | ssh -t $i tee client.cinder.key
+do ceph auth get-key client.cinder | ssh -t $i tee client.cinder.key
 done
 
 #Add secret key vao libvirt
@@ -92,15 +92,16 @@ done
 echo "############ Cau hinh Glance ############"
 glance=/etc/glance/glance-api.conf
 test -f $glance.orig || cp $glance $glance.orig
-ssh -t $CON sudo sed -e'/\[DEFAULT]/a default_store=rbd' -e '/^\[glance_store]$/,$d' $glance.orig > $glance.orig2
+ssh -t $CON sudo sed -e'/\[DEFAULT]/a show_image_direct_url = True' -e '/^\[glance_store]$/,$d' $glance.orig > $glance.orig2
 ssh -t $CON sudo sed -e  's/default_store = file/#default_store = file/' -e '$a\[glance_store]\ stores = rbd \
 rbd_store_pool = images \
 rbd_store_user = glance \
 rbd_store_ceph_conf = /etc/ceph/ceph.conf \
-rbd_store_chunk_size = 8' $glance.orig2 > $glance
+rbd_store_chunk_size = 8 \
+default_store=rbd\ ' $glance.orig2 > $glance
 
 #Cau hinh Cinder
-echo "############ Cau hinh Glance ############"
+echo "############ Cau hinh Cinder ############"
 cinder=/etc/cinder/cinder.conf
 test -f $cinder.orig || cp $cinder $cinder.orig
 ssh -t $CON sudo sed -e'/\[DEFAULT]/a volume_driver = cinder.volume.drivers.rbd.RBDDriver \
@@ -122,26 +123,35 @@ backup_ceph_stripe_unit = 0 \
 backup_ceph_stripe_count = 0 \
 restore_discard_excess_bytes = true' $cinder.orig > $cinder
 
+ssh -t $CON sudo sed -e  's/volume_name_template = volume-%s/#volume_name_template = volume-%s/' $cinder
+ssh -t $CON sudo sed -e  's/volume_group = cinder-volumes/#volume_group = cinder-volumes/' $cinder
+
 #Cau hinh Nova
 echo "############ Cau hinh Nova ############"
 nova=/etc/nova/nova.conf
 test -f $nova.orig || cp $nova $nova.orig
 for i in $COM1 $COM2
-do ssh -t $i sudo sed -e '/\[DEFAULT]/a images_type = rbd \
-images_rbd_pool = vms \
-images_rbd_ceph_conf = /etc/ceph/ceph.conf \
-rbd_user = cinder \
-rbd_secret_uuid = $SECRET' -e '/\libvirt_inject_partition = -1/a libvirt_inject_password = false \
-libvirt_inject_key = false \
-libvirt_inject_partition = -2 \
-libvirt_live_migration_flag=VIR_MIGRATE_UNDEFINE_SOURCE,VIR_MIGRATE_PEER2PEER,VIR_MIGRATE_LIVE,VIR_MIGRATE_PERSIST_DEST,VIR_MIGRATE_TUNNELLED \
-live_migration_retry_count=60 \
-live_migration_uri=qemu+tcp://%s/system \
-live_migration_bandwidth=0 ' $nova.orig > $nova.orig2
+do ssh -t $i sudo cat > $nova <<EOF
+[libvirt]
+inject_partition=-2
+inject_password = false
+live_migration_flag=VIR_MIGRATE_UNDEFINE_SOURCE,VIR_MIGRATE_PEER2PEER,VIR_MIGRATE_LIVE,VIR_MIGRATE_PERSIST_DEST
+inject_key=False
+images_type = rbd
+images_rbd_pool = vms
+images_rbd_ceph_conf = /etc/ceph/ceph.conf
+rbd_user = cinder
+rbd_secret_uuid = fc6a2ccd-eb9f-4e6e-9bd5-4a0c5feb4d50
+disk_cachemodes="network=writeback"
+hw_disk_discard = unmap 
+EOF
+done
+
+for i in $COM1 $COM2
 do ssh -t $i sudo sed -e 's/libvirt_inject_password = True/#libvirt_inject_password = True/' \
 -e 's/enable_instance_password = True/#enable_instance_password = True/' \
 -e 's/libvirt_inject_key = true/#libvirt_inject_key = true/' \
--e 's/libvirt_inject_partition = -1/#libvirt_inject_partition = -1/' $nova.orig2 > $nova
+-e 's/libvirt_inject_partition = -1/#libvirt_inject_partition = -1/' $nova
 done
 
 #Khoi dong lai dich vu

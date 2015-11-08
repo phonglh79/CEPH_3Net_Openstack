@@ -65,6 +65,5 @@ EOF
 
 service network restart
 yum update -y
-yum install sshpass -y
 
 init 6
