@@ -30,10 +30,10 @@ done
 
 #Tao cac pool cho OpenStack
 echo "############ Tao cac pool cho OpenStack ############"
-ceph osd pool create volumes 128
-ceph osd pool create images 128
-ceph osd pool create backups 128
-ceph osd pool create vms 128
+ceph osd pool create volumes 128 128
+ceph osd pool create images 128 128
+ceph osd pool create backups 128 128
+ceph osd pool create vms 128 128
 
 #Copy ceph.conf sang cac node OpenStack
 echo "############ Copy ceph.conf sang cac node OpenStack ############"
@@ -121,7 +121,7 @@ backup_ceph_chunk_size = 134217728 \
 backup_ceph_pool = backups \
 backup_ceph_stripe_unit = 0 \
 backup_ceph_stripe_count = 0 \
-restore_discard_excess_bytes = true' $cinder.orig > $cinder
+restore_discard_excess_bytes = true' $cinder.orig >> $cinder
 
 ssh -t $CON sudo sed -e  's/volume_name_template = volume-%s/#volume_name_template = volume-%s/' $cinder
 ssh -t $CON sudo sed -e  's/volume_group = cinder-volumes/#volume_group = cinder-volumes/' $cinder
@@ -141,7 +141,7 @@ images_type = rbd
 images_rbd_pool = vms
 images_rbd_ceph_conf = /etc/ceph/ceph.conf
 rbd_user = cinder
-rbd_secret_uuid = fc6a2ccd-eb9f-4e6e-9bd5-4a0c5feb4d50
+rbd_secret_uuid = $SECRET
 disk_cachemodes="network=writeback"
 hw_disk_discard = unmap 
 EOF
