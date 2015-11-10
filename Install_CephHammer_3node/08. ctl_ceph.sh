@@ -28,7 +28,7 @@ default_store=rbd\ ' $glance.kilo2 > $glance
 echo "############ Cau hinh Cinder ############"
 cinder=/etc/cinder/cinder.conf
 test -f $cinder.kilo || cp $cinder $cinder.kilo
-sed -e "/DEFAULT/a volume_driver = cinder.volume.drivers.rbd.RBDDriver \
+sed -e '/DEFAULT/a volume_driver = cinder.volume.drivers.rbd.RBDDriver \
 rbd_pool = volumes \
 rbd_ceph_conf = /etc/ceph/ceph.conf \
 rbd_flatten_volume_from_snapshot = false \
@@ -37,7 +37,7 @@ rbd_store_chunk_size = 4 \
 rados_connect_timeout = -1 \
 glance_api_version = 2 \
 rbd_user = cinder \
-rbd_secret_uuid = '"$SECRET"'' \
+rbd_secret_uuid = '"$SECRET"' \
 backup_driver = cinder.backup.drivers.ceph \
 backup_ceph_conf = /etc/ceph/ceph.conf \
 backup_ceph_user = cinder-backup \
@@ -45,7 +45,7 @@ backup_ceph_chunk_size = 134217728 \
 backup_ceph_pool = backups \
 backup_ceph_stripe_unit = 0 \
 backup_ceph_stripe_count = 0 \
-restore_discard_excess_bytes = true" -e 's/volume_name_template = volume-%s/#volume_name_template = volume-%s/' \
+restore_discard_excess_bytes = true' -e 's/volume_name_template = volume-%s/#volume_name_template = volume-%s/' \
  -e 's/volume_group = cinder-volumes/#volume_group = cinder-volumes/' $cinder.kilo > $cinder
 
 
