@@ -16,10 +16,11 @@ Chuẩn bị môi trường:
 - Các máy ảo có 3 card mạng tương ứng với các dải mạng Local, External và Replicate
 
 ####C.1. Truy cập bằng tài khoản root vào máy các máy chủ và tải các gói, script chuẩn bị cho quá trình cài đặt
-	yum update
+	yum update -y
 	yum install git -y
-	git clone
-	mv /root/https://github.com/longsube/CEPH_3Net_Openstack/Install_CephHammer_3node
+	git clone https://github.com/longsube/CEPH_3Net_Openstack
+	mv CEPH_3Net_Openstack/Install_CephHammer_3node/ Install_CephHammer_3node/
+	rm -rf CEPH_3Net_Openstack/
 	cd Install_CephHammer_3node/
 	chmod +x *.sh
 
