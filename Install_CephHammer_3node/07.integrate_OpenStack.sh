@@ -25,9 +25,10 @@ ceph osd pool create vms 128 128
 
 #Copy ceph.conf sang cac node OpenStack
 echo "############ Copy ceph.conf sang cac node OpenStack ############"
-for i in $CON $COM1 $COM2
-do ssh -t $i sudo mkdir /etc/ceph
-do ssh -t $i sudo tee /etc/ceph/ceph.conf < /etc/ceph/ceph.conf 
+for i in $CON $COM1 $COM2 
+do 
+ssh -t $i sudo mkdir /etc/ceph
+ssh -t $i sudo tee /etc/ceph/ceph.conf < /etc/ceph/ceph.conf 
 done
 
 #Tao user cho cac dich vu cua OpenStack

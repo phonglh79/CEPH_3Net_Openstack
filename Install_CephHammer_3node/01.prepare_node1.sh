@@ -36,7 +36,7 @@ ETH2=/etc/sysconfig/network-scripts/ifcfg-eth2
 test -f $ETH2.orig || cp $ETH2 $ETH2.orig
 rm $ETH2
 touch $ETH2
-cat << EOF > eth2
+cat << EOF > $ETH2
 DEVICE=eth2
 TYPE=Ethernet
 ONBOOT=yes
