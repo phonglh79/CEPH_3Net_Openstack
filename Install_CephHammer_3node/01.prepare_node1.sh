@@ -2,7 +2,7 @@
 source config.cfg
 
 echo "########## Dat IP cho NIC ##########"
-ETH1=/etc/sysconfig/network-scripts/ifcfg-ETH1
+ETH1=/etc/sysconfig/network-scripts/ifcfg-eth1
 test -f $ETH1.orig || cp $ETH1 $ETH1.orig
 rm $ETH1
 touch $ETH1
