@@ -2,8 +2,8 @@
 source config.cfg
 
 echo "########## Dat IP cho NIC ##########"
-ETH1=/etc/sysconfig/network-scripts/ifcfg-ETH1
-test -f ETH1.orig || cp ETH1 ETH1.orig
+ETH1=/etc/sysconfig/network-scripts/ifcfg-eth1
+test -f $ETH1.orig || cp $ETH1 $ETH1.orig
 rm $ETH1
 touch $ETH1
 cat << EOF > $ETH1
@@ -33,12 +33,12 @@ NETMASK=255.255.255.0
 EOF
 
 
-ETH2=/etc/sysconfig/network-scripts/ifcfg-$ETH2
+ETH2=/etc/sysconfig/network-scripts/ifcfg-eth2
 test -f $ETH2.orig || cp $ETH2 $ETH2.orig
 rm $ETH2
 touch $ETH2
 cat << EOF >  $ETH2
-DEVICE=$ETH2
+DEVICE=eth2
 TYPE=Ethernet
 ONBOOT=yes
 NM_CONTROLLED=yes
