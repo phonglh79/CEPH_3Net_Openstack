@@ -33,7 +33,7 @@ NETMASK=255.255.255.0
 EOF
 
 ETH2=/etc/sysconfig/network-scripts/ifcfg-eth2
-test -f $ETH2.orig || cp $ETH2 ETH2.orig
+test -f $ETH2.orig || cp $ETH2 $ETH2.orig
 rm $ETH2
 touch $ETH2
 cat << EOF > eth2
