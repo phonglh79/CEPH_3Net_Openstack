@@ -45,8 +45,7 @@ backup_ceph_chunk_size = 134217728 \
 backup_ceph_pool = backups \
 backup_ceph_stripe_unit = 0 \
 backup_ceph_stripe_count = 0 \
-restore_discard_excess_bytes = true' \ 
--e 's/volume_name_template = volume-%s/#volume_name_template = volume-%s/' \
+restore_discard_excess_bytes = true' -e 's/volume_name_template = volume-%s/#volume_name_template = volume-%s/' \
  -e 's/volume_group = cinder-volumes/#volume_group = cinder-volumes/' $cinder.kilo > $cinder
 
 
