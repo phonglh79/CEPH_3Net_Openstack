@@ -2,12 +2,12 @@
 source config.cfg
 
 echo "########## Dat IP cho NIC ##########"
-ETH0=/etc/sysconfig/network-scripts/ifcfg-eth0
-test -f $ETH0.orig || cp $ETH0 ETH0.orig
-rm $ETH0
-touch $ETH0
-cat << EOF >  $ETH0
-DEVICE=eth0
+ETH1=/etc/sysconfig/network-scripts/ifcfg-ETH1
+test -f ETH1.orig || cp ETH1 ETH1.orig
+rm $ETH1
+touch $ETH1
+cat << EOF > $ETH1
+DEVICE=eth1
 TYPE=Ethernet
 ONBOOT=yes
 NM_CONTROLLED=yes
@@ -18,12 +18,12 @@ GATEWAY=$GATEWAY
 DNS1=8.8.8.8
 EOF
 
-ETH1=/etc/sysconfig/network-scripts/ifcfg-eth1
-test -f $ETH1.orig || cp $ETH1 $ETH1.orig
-rm $ETH1
-touch $ETH1
-cat << EOF >  $ETH1
-DEVICE=eth1
+ETH0=/etc/sysconfig/network-scripts/ifcfg-eth0
+test -f $ETH0.orig || cp $ETH0 $ETH0.orig
+rm $ETH0
+touch $ETH0
+cat << EOF > $ETH0
+DEVICE=eth0
 TYPE=Ethernet
 ONBOOT=yes
 NM_CONTROLLED=yes
@@ -31,6 +31,7 @@ BOOTPROTO=static
 IPADDR=$CEPH2_LOCAL
 NETMASK=255.255.255.0
 EOF
+
 
 ETH2=/etc/sysconfig/network-scripts/ifcfg-$ETH2
 test -f $ETH2.orig || cp $ETH2 $ETH2.orig
