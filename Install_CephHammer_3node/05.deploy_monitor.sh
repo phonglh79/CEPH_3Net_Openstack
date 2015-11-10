@@ -39,30 +39,21 @@ EOF
 
 #Tao keyring cho Cluster
 echo "############ Tao keyring cho Cluster ############"
-KEYRING=/tmp/ceph.mon.keyring
-if [ -f "$KEYRING" ]
-then
-ceph-authtool --create-keyring $KEYRING --gen-key -n mon. --cap mon 'allow *'
-fi
+ceph-authtool --create-keyring /tmp/ceph.mon.keyring --gen-key -n mon. --cap mon 'allow *'
 
 #Tao client.admin user
 echo "############ Tao client.admin user ############"
-ADMIN_KEYRING=/etc/ceph/ceph.client.admin.keyring
-if [ -f "$ADMIN_KEYRING" ]
-then
-ceph-authtool --create-keyring $ADMIN_KEYRING --gen-key -n client.admin --set-uid=0 --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow'
-ceph-authtool /tmp/ceph.mon.keyring --import-keyring $ADMIN_KEYRING
-fi
+ceph-authtool --create-keyring /etc/ceph/ceph.client.admin.keyring --gen-key -n client.admin --set-uid=0 --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow'
+
+#Add client.admin key vao ceph.mon.keyring
+echo "############ Add client.admin key vao ceph.mon.keyring ############"
+ceph-authtool /tmp/ceph.mon.keyring --import-keyring /etc/ceph/ceph.client.admin.keyring
 
 #Tao monitor map
-MONMAP=/tmp/monmap
-if [ -f "$MONMAP" ]
-then
-monmaptool --create --add $HOST1 $CEPH1_LOCAL --fsid $FSID MONMAP
-fi
+monmaptool --create --add $HOST1 $CEPH1_LOCAL --fsid $FSID /tmp/monmap
 
 #Tao thu muc cho Monitor
-test -f /var/lib/ceph/mon/ceph-$HOST1 || mkdir /var/lib/ceph/mon/ceph-$HOST1
+mkdir /var/lib/ceph/mon/ceph-$HOST1
 
 #Tao Monitor daemon
 ceph-mon --mkfs -i $HOST1 --monmap /tmp/monmap --keyring /tmp/ceph.mon.keyring

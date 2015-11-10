@@ -35,5 +35,7 @@ ssh -t $HOST3 sudo ceph-disk activate /dev/${OSD4}1
 ssh -t $HOST3 sudo ceph-disk activate /dev/${OSD5}1
 
 
-
-
+#Kiem tra trang thai CEPH
+echo "############ Kiem tra trang thai Ceph ############"
+ceph status
+sleep 5
