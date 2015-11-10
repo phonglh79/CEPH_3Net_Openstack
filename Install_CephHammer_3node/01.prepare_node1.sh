@@ -63,6 +63,14 @@ $CEPH2_LOCAL            $HOST2
 $CEPH3_LOCAL        $HOST3
 EOF
 
+#Tat iptables
+echo "########## Tat iptables ##########"
+service iptables save
+service iptables stop
+chkconfig iptables off
+
+#update va cai sshpass
+echo "########## update va cai sshpass ##########"
 service network restart
 yum update -y
 yum install sshpass -y
