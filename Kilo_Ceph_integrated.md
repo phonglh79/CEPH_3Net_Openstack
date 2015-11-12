@@ -87,6 +87,23 @@ Sau khi các node đã khởi động lên, truy cập vào node ceph1 với quy
 
 ###D.Tích hợp Ceph với OpenStack
 Các node OpenStack cho phép ssh với quyền root
-####D.1 Thực hiện việc tải các package Ceph cho các node OpenStack và cấu hình
-	bash 07.integrate_OpenStack.sh
+####D.1: Trên node Ceph1
+Thực hiện việc tạo các pool cho Cinder, Glance, Nova
+	bash 07.create_pool.sh
+	
+####D.2 Trên node Ceph1
+Thực hiện việc tạo các keyring cho Cinder, Glance
+	bash 08.Add_keyring_controller.sh
+	
+####D.3 Trên node Ceph1
+Thực hiện việc tạo các keyring cho Nova
+	bash 09.Add_keyring_compute.sh
+	
+####D.4 Trên node Controller
+Thực hiện việc tải các package Ceph và cấu hình Glance, Cinder trên node Controller
+	bash 10.ctl_ceph.sh
+	
+####D.5 Trên các node Compute
+Thực hiện việc tải các package Ceph và cấu hình Nova
+	bash 11.com_ceph.sh
 	
