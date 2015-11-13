@@ -2,7 +2,7 @@
 
 ### A. Mô hình LAB
 
-![Alt text](http://i.imgur.com/recpCLC.jpg)
+![Alt text](http://i.imgur.com/L0WNZEh.png)
 
 ### B. Cài đặt OpenStack
 Thực hiện theo hướng dẫn sau:
@@ -13,7 +13,8 @@ https://github.com/vietstacker/openstack-kilo-multinode-U14.04-v1
 Chuẩn bị môi trường:
 - 3 máy ảo chạy CentOS 6.5, kernel 2.6.32-504.23.4.el6.x86_64
 - Disable iptables
-- Các máy ảo có 3 card mạng tương ứng với các dải mạng Local, External và Replicate
+- Các máy ảo có 3 card mạng tương ứng:với các dải mạng Local, External và Replicate
+	
 
 ####C.1. Truy cập bằng tài khoản root vào máy các máy chủ và tải các gói, script chuẩn bị cho quá trình cài đặt
 	yum update -y
@@ -36,31 +37,32 @@ Sửa các thông số sau:
 	HOST1=ceph1
 	HOST2=ceph2
 	HOST3=ceph3
-	#CON=controller
-	#COM1=compute1
-	#COM2=compute2
+	CON=controller
+	COM1=compute1
+	COM2=compute2
 
 	#SUBNET
-	LOCAL=192.168.20.0/24
-	REPLICATE=192.168.10.0/24
+	LOCAL=10.10.10.0/24
+	REPLICATE=10.10.20.0/24
 
 	#IP EXTERNAL
-	CEPH1_EXT=10.145.37.43
-	CEPH2_EXT=10.145.37.45
-	CEPH3_EXT=10.145.37.47
+	CEPH1_EXT=172.16.69.80
+	CEPH2_EXT=172.16.69.81
+	CEPH3_EXT=172.16.69.82
+	GATEWAY=172.16.69.1
 
 	#IP LOCAL
-	CEPH1_LOCAL=192.168.20.43
-	CEPH2_LOCAL=192.168.20.45
-	CEPH3_LOCAL=192.168.20.47
-	CON_LOCAL=192.168.20.44
-	COM1_LOCAL=192.168.20.50
-	COM2_LOCAL=192.168.20.62
+	CEPH1_LOCAL=10.10.10.151
+	CEPH2_LOCAL=10.10.10.152
+	CEPH3_LOCAL=10.10.10.153
+	CON_LOCAL=10.10.10.130
+	COM1_LOCAL=10.10.10.132
+	COM2_LOCAL=10.10.10.133
 
 	#IP REPLICATE
-	CEPH1_REPLICATE=192.168.10.43
-	CEPH2_REPLICATE=192.168.10.45 
-	CEPH3_REPLICATE=192.168.10.47
+	CEPH1_REPLICATE=10.10.20.131
+	CEPH2_REPLICATE=10.10.20.132
+	CEPH3_REPLICATE=10.10.20.133
 ```	
 ....
 
