@@ -2,7 +2,7 @@
 
 ### A. Mô hình LAB
 
-![Alt text](hhttp://i.imgur.com/uvZRhNI.jpg)
+![Alt text](http://i.imgur.com/uvZRhNI.jpg)
 
 ### B. Cài đặt OpenStack
 Thực hiện theo hướng dẫn sau:
