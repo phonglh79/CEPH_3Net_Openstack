@@ -154,6 +154,7 @@ Chọn Ignore nếu xuât hiện thông báo
     ceph auth get-key client.cinder | ssh root@20.20.20.51 tee client.cinder.key
 	
 #### F.6. Trên node OpenStack, chạy lệnh
+    apt-get update && sudo apt-get install ceph-common python-ceph glance python-glanceclient
     cd /root
     uuidgen
 	
